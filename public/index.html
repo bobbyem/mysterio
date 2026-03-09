@@ -1,27 +1,33 @@
-<!DOCTYPE html>
+<!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Mysterio</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/sw.js");
+      }
+    </script>
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div id="background"></div>
     <button id="start_btn">???</button>
     <div id="inputContainer">
-
       <h1 id="puzzle_name" class="hidden">Mysterio</h1>
-      <input class="hidden" name="main_input" id="main_input" label="main">
+      <input class="hidden" name="main_input" id="main_input" label="main" />
     </div>
-    
+
     <script src="index.js" async defer></script>
   </body>
 </html>
