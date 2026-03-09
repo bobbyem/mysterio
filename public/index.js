@@ -1,4 +1,21 @@
+if("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js")
+    .then(registration => {
+      console.log("Service Worker registered with scope:", registration.scope);
+    })
+    .catch(error => {
+      console.error("Service Worker registration failed:", error);
+    });
+} else {
+  console.warn("Service Workers are not supported in this browser.");
+}
+
+
 const jsConfetti = new JSConfetti();
+
+const STATE = {
+  SEEN_INTRO: false,
+};
 
 const startBtn = document.getElementById("start_btn");
 const mainInput = document.getElementById("main_input");
@@ -31,11 +48,8 @@ function handleClick(e) {
     switch (e.target.id) {
       case "start_btn":
         toggleVisibility(e.target);
-        toggleVisibility(mainInput);
-        toggleVisibility(puzzleName);
-
-        loadPuzzle(puzzles[0]);
-
+        window.localStorage.setItem("seenIntro", "true");
+        startGame();
         break;
       default:
         console.log("No target found!");
@@ -73,6 +87,25 @@ function loadPuzzle(puzzle) {
   mainInput.autocapitalize = "on";
 }
 
+function startGame() {
+  loadPuzzle(puzzles[0]);
+  toggleVisibility(mainInput);
+  toggleVisibility(puzzleName);
+}
+
+function inti() {
+  window.localStorage.getItem("seenIntro") === "true"
+    ? (STATE.SEEN_INTRO = true)
+    : (STATE.SEEN_INTRO = false);
+
+  if (STATE.SEEN_INTRO) {
+    toggleVisibility(startBtn);
+    startGame();
+  }
+}
+
 const typingSound = new Audio("./wav/typing.wav");
 const wrongSound = new Audio("./wav/fel.wav");
 const correctSound = new Audio("./wav/ratt.wav");
+
+inti();

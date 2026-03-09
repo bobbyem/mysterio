@@ -6,15 +6,15 @@
   "display": "standalone",
   "orientation": "landscape",
   "scope": "/",
-  "start_url": "/",
+  "start_url": "/index.html",
   "icons": [
     {
-      "src": "./public/icons/app-icon192.png",
+      "src": "/icons/app-icon_192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "./public/icons/app-icon512.png",
+      "src": "/icons/app-icon512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
