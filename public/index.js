@@ -17,10 +17,12 @@ const STATE = {
   SEEN_INTRO: false,
 };
 
+const cover = document.getElementById("cover");
 const startBtn = document.getElementById("start_btn");
 const mainInput = document.getElementById("main_input");
 const puzzleName = document.getElementById("puzzle_name");
 
+cover.addEventListener("animationend", (event) => {toggleVisibility(cover)});
 startBtn.addEventListener("click", handleClick);
 mainInput.addEventListener("input", handleInput);
 
@@ -102,7 +104,12 @@ function inti() {
     toggleVisibility(startBtn);
     startGame();
   }
-}
+
+  //Fade out cover
+  setTimeout(() => {
+    cover.classList.add("fade-out");
+    }, 3000);  
+  }
 
 const typingSound = new Audio("./wav/typing.wav");
 const wrongSound = new Audio("./wav/fel.wav");
