@@ -1,15 +1,15 @@
-if("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("sw.js")
-    .then(registration => {
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker
+    .register("sw.js")
+    .then((registration) => {
       console.log("Service Worker registered with scope:", registration.scope);
     })
-    .catch(error => {
+    .catch((error) => {
       console.error("Service Worker registration failed:", error);
     });
 } else {
   console.warn("Service Workers are not supported in this browser.");
 }
-
 
 const jsConfetti = new JSConfetti();
 
@@ -17,13 +17,17 @@ const STATE = {
   SEEN_INTRO: false,
 };
 
+// DOM elements
 const cover = document.getElementById("cover");
-const startBtn = document.getElementById("start_btn");
 const mainInput = document.getElementById("main_input");
 const puzzleName = document.getElementById("puzzle_name");
 
-cover.addEventListener("animationend", (event) => {toggleVisibility(cover)});
-startBtn.addEventListener("click", handleClick);
+//Created DOM elements
+const puzzleButtons = [];
+
+cover.addEventListener("animationend", (event) => {
+  toggleVisibility(cover);
+});
 mainInput.addEventListener("input", handleInput);
 
 function handleInput(e) {
@@ -43,21 +47,6 @@ function handleInput(e) {
   typingSound.play();
 }
 
-function handleClick(e) {
-  console.log("Clicked!");
-  if (e.target) {
-    //Switch on target
-    switch (e.target.id) {
-      case "start_btn":
-        toggleVisibility(e.target);
-        window.localStorage.setItem("seenIntro", "true");
-        startGame();
-        break;
-      default:
-        console.log("No target found!");
-    }
-  }
-}
 
 function toggleVisibility(target) {
   if (target.classList.contains("hidden")) {
@@ -80,6 +69,24 @@ class Puzzle {
 
 const puzzles = [new Puzzle("📘", "leo", "text", "198")];
 
+function createPuzzleButtons() {
+  puzzles.forEach((puzzle, index) => {
+    const button = document.createElement("button");
+
+    button.textContent = puzzle.name;
+    button.classList.add("puzzle_button");
+
+    button.addEventListener("click", () => {
+      puzzleButtons.forEach((btn) => btn.classList.remove("selected"));
+      loadPuzzle(puzzle);
+    });
+
+    puzzleButtons.push(button);
+
+    document.getElementById("puzzle_selector").appendChild(button);
+  });
+}
+
 function loadPuzzle(puzzle) {
   currentPuzzle = puzzle;
   puzzleName.textContent = puzzle.name;
@@ -87,6 +94,13 @@ function loadPuzzle(puzzle) {
   mainInput.maxLength = puzzle.answer.length;
   mainInput.size = puzzle.answer.length;
   mainInput.autocapitalize = "on";
+  puzzleButtons.forEach((btn) => {
+    if (btn.textContent === puzzle.name) {
+      btn.classList.add("selected");
+    } else {
+      btn.classList.remove("selected");
+    }
+  });
 }
 
 function startGame() {
@@ -96,20 +110,15 @@ function startGame() {
 }
 
 function inti() {
-  window.localStorage.getItem("seenIntro") === "true"
-    ? (STATE.SEEN_INTRO = true)
-    : (STATE.SEEN_INTRO = false);
-
-  if (STATE.SEEN_INTRO) {
-    toggleVisibility(startBtn);
+  createPuzzleButtons();
     startGame();
-  }
+  
 
   //Fade out cover
   setTimeout(() => {
     cover.classList.add("fade-out");
-    }, 3000);  
-  }
+  }, 1000);
+}
 
 const typingSound = new Audio("./wav/typing.wav");
 const wrongSound = new Audio("./wav/fel.wav");
