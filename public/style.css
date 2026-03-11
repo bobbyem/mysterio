@@ -3,6 +3,8 @@ body{
     color: white;
     font-family: 'Courier New', Courier, monospace;
     display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -32,6 +34,37 @@ body{
     z-index: -1;
     animation: fade 10s infinite alternate-reverse;
     filter: blur(100%);
+}
+
+#controls{
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    flex-direction: row;
+    flex-direction: row-reverse;
+    padding: 16px;
+
+}
+
+#controls button {
+    background-color: transparent;
+    border: 1px solid rgba(135, 135, 135, 0.875);
+    border-radius: 4px;
+    padding: 5px;
+    color:whitesmoke;
+    font-size: 32px;
+    cursor: pointer;
+}
+
+#controls button.selected{
+    background-color: rgba(205, 202, 202, 0.875);
+}
+
+#controls button img {
+    width: 48px;
+    height: 48px;
 }
 
 #puzzle_selector {

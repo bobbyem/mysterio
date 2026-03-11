@@ -21,6 +21,8 @@ const STATE = {
 const cover = document.getElementById("cover");
 const mainInput = document.getElementById("main_input");
 const puzzleName = document.getElementById("puzzle_name");
+const music = document.getElementById("music");
+const muteButton = document.getElementById("mute");
 
 //Created DOM elements
 const puzzleButtons = [];
@@ -47,6 +49,7 @@ function handleInput(e) {
   typingSound.play();
 }
 
+muteButton.addEventListener("click", toggleMusic);
 
 function toggleVisibility(target) {
   if (target.classList.contains("hidden")) {
@@ -79,6 +82,7 @@ function createPuzzleButtons() {
     button.addEventListener("click", () => {
       puzzleButtons.forEach((btn) => btn.classList.remove("selected"));
       loadPuzzle(puzzle);
+      typingSound.play();
     });
 
     puzzleButtons.push(button);
@@ -109,10 +113,23 @@ function startGame() {
   toggleVisibility(puzzleName);
 }
 
+function toggleMusic() {
+  if (music.volume > 0) {
+    music.volume = 0;
+    muteButton.classList.add("selected");
+  } else {
+    music.volume = 0.2;
+    muteButton.classList.remove("selected");
+  }
+
+  window.localStorage.setItem("musicVolume", music.volume);
+}
+
 function inti() {
   createPuzzleButtons();
-    startGame();
-  
+  window.localStorage.getItem("musicVolume") && (music.volume = window.localStorage.getItem("musicVolume"));
+       
+  startGame();
 
   //Fade out cover
   setTimeout(() => {
